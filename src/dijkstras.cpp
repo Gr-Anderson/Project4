@@ -53,23 +53,28 @@ int main(int argc, char *argv[])
 void Matrix::CreatePath(){
 
 	Node *n;
-	n = graph[end];
-
-	
+	n = graph[end];	
 
 	vector<int> flow;
 	int totalWeight = 0;
 
-	while(n->index != (int) start){
-	
-		totalWeight += n->weight;
+	while(true)
+	{
+		if (n->index != (int) end)
+			totalWeight += n->weight;
+
 		flow.push_back(n->index);
-		n = n->backedge;
+
+		if (n->index == (int) start)
+			break;
+		else
+			n = n->backedge;
 	}
 
 	cout << totalWeight << '\n';
 
-	for(int i = flow.size(); i >= 0; i--)
+//	cout << flow[0]/cols << " " << flow[0]%cols << '\n';
+	for(int i = flow.size()-1; i >= 0; i--)
 		cout << flow[i]/cols << ' ' << flow[i]%cols << '\n';
 
 }

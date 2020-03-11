@@ -42,8 +42,8 @@ int main(int argc, char *argv[])
 	cin >> numtiles;
 
 	Matrix landscape(numtiles);
-//	landscape.FindEdges();
-//	landscape.CreatePath();
+	landscape.FindEdges();
+	landscape.CreatePath();
 
 	return 0;
 }
@@ -106,8 +106,11 @@ Matrix::Matrix(unsigned int numtiles)
 
 	cin >> startrow >> startcol >> endrow >> endcol;
 
+	start = (startrow*cols) + startcol;
+	end = (endrow*cols) + endcol;
+
 	/* -- Testing input -- */
-	cout << numtiles << '\n';
+/*	cout << numtiles << '\n';
 
 	for (tileiterator = tilecosts.begin(); tileiterator != tilecosts.end(); tileiterator++)
 		cout << tileiterator->first << " " << tileiterator->second << '\n';
@@ -123,8 +126,8 @@ Matrix::Matrix(unsigned int numtiles)
 	cout << '\n';
 	cout << startrow << " " << startcol << '\n';
 	cout << endrow << " " << endcol << '\n';
-	
-	/* -- Checking the adjacent matrix -- */
+
+	/ -- Checking the adjacent matrix -- /
 	for (unsigned int i = 0; i < graph.size(); i++)
 	{
 		cout << "graph[" << i << "] : ";
@@ -133,11 +136,55 @@ Matrix::Matrix(unsigned int numtiles)
 
 		cout << '\n';
 	}
-
+*/
 }
 
 Matrix::~Matrix()
 {
 	for (unsigned int i = 0; i < graph.size(); i++)
 		delete graph[i];
+}
+
+void Matrix::FindEdges()
+{
+	for (unsigned int i = 0; i < graph.size(); i++)
+	{
+		if (i == 0)
+			graph[i]->distance = 0;
+		
+		graph[i]->visited = 1;
+		for (unsigned int j = 0; j < graph[i]->adjacent.size(); j++)
+		{
+			if (graph[i]->adjacent[j]->distance == -1)
+			{
+				graph[i]->adjacent[j]->distance = graph[i]->distance + tilecosts.find(graph[i]->tile)->second;
+				graph[i]->adjacent[j]->backedge = graph[i];
+			}
+
+			if ((graph[i]->distance + tilecosts.find(graph[i]->tile)->second) < graph[i]->adjacent[j]->distance)
+			{
+				graph[i]->adjacent[j]->distance = graph[i]->distance + tilecosts.find(graph[i]->tile)->second;
+				graph[i]->adjacent[j]->backedge = graph[i];
+			}
+		}
+	}
+}
+
+void Matrix::CreatePath()
+{
+	vector <int> path;
+	unsigned int i = end;
+	
+	while (true)
+	{
+		path.push_back(i);
+		if (i == start)
+			break;
+		i = graph[i]->backedge->index;
+	}
+
+	cout << graph[end]->distance << '\n';
+	for (unsigned int j = 1; j <= path.size(); j++)
+		cout << path[path.size()-j]/cols << " " << path[path.size()-j]%cols << '\n';
+
 }

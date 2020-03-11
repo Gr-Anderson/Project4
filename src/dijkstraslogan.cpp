@@ -3,61 +3,141 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <stdio.h>
+#include <ctype.h>
 using namespace std;
+
+struct Node
+{
+	Node(int ind, char t);
+
+	Node *backedge;
+	bool visited;
+	char tile;
+	int distance;
+	int index;
+	vector <Node *> adjacent;
+};
+
+struct Matrix
+{
+	public:
+		Matrix(unsigned int numtiles);
+		~Matrix();
+		void CreatePath();
+		void FindEdges();
+	private:
+		unsigned int rows, cols;
+		unsigned int start, end;
+		vector <Node *> graph;
+		map <char, int> tilecosts;
+};
 
 // Main Execution
 
 int main(int argc, char *argv[]) 
 {
-	map <char, int> tilecosts;
-	map <char, int>::const_iterator tileit;
-	vector <vector<char>> matrix;
-	unsigned int ntiles, tilenum, maprows, mapcols;
-	unsigned int startrow, startcol, endrow, endcol;
+	unsigned int numtiles;
+
+	cin >> numtiles;
+
+	Matrix landscape(numtiles);
+//	landscape.FindEdges();
+//	landscape.CreatePath();
+
+	return 0;
+}
+
+Node::Node(int ind, char t)
+{
+	backedge = NULL;
+	visited = 0;
+	tile = t;
+	distance = -1;
+	index = ind;
+	adjacent.resize(0);
+}
+
+Matrix::Matrix(unsigned int numtiles)
+{
 	char tilename, inputtile;
+	map <char, int>::const_iterator tileiterator;
+	unsigned int startrow, startcol, endrow, endcol;
+	int tilecost;
 
-	cin >> ntiles;
-
-	for (unsigned int i = 0; i < ntiles; i++)
+	// Reading in tile costs
+	for (unsigned int i = 0; i < numtiles; i++)
 	{
-		cin >> tilename >> tilenum;
-		tilecosts[tilename] = tilenum;
+		cin >> tilename >> tilecost;
+		tilecosts[tilename] = tilecost;
 	}
 
-	cin >> maprows >> mapcols;
+	cin >> rows >> cols;
 
-	matrix.resize(maprows);
-
-	for (unsigned int i = 0; i < maprows; i++)
+	// Creating the graph of nodes
+	for (unsigned int i = 0; i < (rows * cols); i++)
 	{
-		for (unsigned int j = 0; j < mapcols; j++)
-		{
-			cin >> inputtile;
-			matrix[i].push_back(inputtile);
-		}
+		Node *inputnode;
+
+		cin >> inputtile;
+		inputnode = new Node(i, inputtile);
+		graph.push_back(inputnode);
+	}
+	
+	// Setting the adjacent vectors of each node
+	for (int i = 0; i < (int) graph.size(); i++)
+	{
+		// Adding above node to adj
+		if ((i - cols) >= 0 && (i-cols) < (rows * cols))
+			graph[i]->adjacent.push_back(graph[i-cols]);
+
+		// Adding left node to adj
+		if (((i%cols)-1 >= 0) && (i%cols)-1 < (rows*cols))
+			graph[i]->adjacent.push_back(graph[i-1]);
+
+		// Adding right node to adj
+		if (((i%cols)+1 < cols) && (i%cols)+1 < (rows*cols))
+			graph[i]->adjacent.push_back(graph[i+1]);
+
+		// Adding below node to adj
+		if ((i + cols) < (rows * cols))
+			graph[i]->adjacent.push_back(graph[i+cols]);
 	}
 
 	cin >> startrow >> startcol >> endrow >> endcol;
 
-	// Checking Input
-	cout << ntiles << '\n';
+	/* -- Testing input -- */
+	cout << numtiles << '\n';
 
-	for (tileit = tilecosts.begin(); tileit != tilecosts.end(); tileit++)
+	for (tileiterator = tilecosts.begin(); tileiterator != tilecosts.end(); tileiterator++)
+		cout << tileiterator->first << " " << tileiterator->second << '\n';
+
+	cout << rows << " " << cols << '\n';
+
+	for (unsigned int i = 0; i < graph.size(); i++)
 	{
-		cout << tileit->first << " " << tileit->second << '\n';
+		if ((i % cols == 0) && i != 0)
+			cout << '\n';
+		cout << graph[i]->tile << " ";
 	}
-
-	cout << maprows << " " << mapcols << '\n';
-	for (unsigned int i = 0; i < maprows; i++)
+	cout << '\n';
+	cout << startrow << " " << startcol << '\n';
+	cout << endrow << " " << endcol << '\n';
+	
+	/* -- Checking the adjacent matrix -- */
+	for (unsigned int i = 0; i < graph.size(); i++)
 	{
-		for (unsigned int j = 0; j < mapcols; j++)
-		{
-			cout << matrix[i][j] << " ";
-		}
+		cout << "graph[" << i << "] : ";
+		for (unsigned int j = 0; j < graph[i]->adjacent.size(); j++)
+			cout << graph[i]->adjacent[j]->tile << " ";
+
 		cout << '\n';
 	}
-	
-	cout << startrow <<  " " << startcol << '\n' << endrow << " " << endcol << '\n';
-	return 0;
+
 }
 
+Matrix::~Matrix()
+{
+	for (unsigned int i = 0; i < graph.size(); i++)
+		delete graph[i];
+}

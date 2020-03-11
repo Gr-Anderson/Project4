@@ -3,6 +3,13 @@ Project 04: Path Finding
 
 N | Elapsed Time | Memory Usage
 --- | --- | ---
+10 | | 
+20 | | 
+50 | |
+100 | |
+200 | |
+500 | |
+1000 | |
 
 This project implements a [Dijkstra's Algorithm] to perform rudimentary path
 finding on a 2D tile-based map.

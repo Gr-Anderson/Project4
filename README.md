@@ -2,7 +2,7 @@ Project 04: Path Finding
 ========================
 
 N | Elapsed Time (total) | Memory Usage (Megabytes)
---- | --- | ---
+--- | :---: | :---:
 10 | .0042s | 0.01 
 20 | .0048s | 0.038
 50 | .007s | 0.236

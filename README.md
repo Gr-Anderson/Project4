@@ -1,6 +1,9 @@
 Project 04: Path Finding
 ========================
 
+N | Elapsed Time | Memory Usage
+--- | --- | ---
+
 This project implements a [Dijkstra's Algorithm] to perform rudimentary path
 finding on a 2D tile-based map.
 

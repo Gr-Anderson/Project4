@@ -58,14 +58,10 @@ void Matrix::CreatePath(){
 	
 
 	vector<int> flow;
-	int a, totalWeight = 0;
+	int totalWeight = 0;
 
-	while(n->index != start){
-
-	for(int i =0; i < 3; i++)
-		cout << n->adjacent[i]->distance << ' ' << n->adjacent[i]->tile << '\n';
-
-		cout << '\n';
+	while(n->index != (int) start){
+	
 		totalWeight += n->weight;
 		flow.push_back(n->index);
 		n = n->backedge;
@@ -89,43 +85,23 @@ void Matrix::FindEdges(){
 	Nodes.insert(pair<int, Node *>(0, n));
 
 	while(!Nodes.empty()){
-
-//		for(nit = Nodes.begin(); nit != Nodes.end(); nit++)
-//			cout << nit->first << ' ' << nit->second->index << '\n';
-
-//		cout << '\n';
-
+		
 		nit = Nodes.begin();
 		nit->second->visited = true;
 
 		int dist = nit->second->distance;
-		int id;
 
-		for(int j = 0; j < nit->second->adjacent.size(); j++){
+		for(unsigned int j = 0; j < nit->second->adjacent.size(); j++){
 
 			if(nit->second->adjacent[j]->visited == false){
-				if((dist + nit->second->adjacent[j]->weight) < (nit->second->adjacent[j]->distance || nit->second->adjacent[j]->distance == -1){
-
-					id = nit->second->adjacent[j]->index;
+				if((dist + nit->second->adjacent[j]->weight) < nit->second->adjacent[j]->distance || nit->second->adjacent[j]->distance == -1){
 
 					nit->second->adjacent[j]->distance = dist + nit->second->adjacent[j]->weight;
-					dist += nit->second->adjacent[j]->weight;
 					nit->second->adjacent[j]->backedge = nit->second;
 
 					int a = nit->second->adjacent[j]->index;
-					Nodes.insert(pair<int, Node *>(dist, graph[a]));
+					Nodes.insert(pair<int, Node *>(nit->second->adjacent[j]->distance, graph[a]));
 
-/*					nit = Nodes.begin();
-					nit++;
-					for(nit; nit != Nodes.end();)
-						if(nit->second->index == id){
-							Nodes.erase(nit);
-							nit = Nodes.begin();
-						}
-						else
-							nit++;
-
-*/
 				}
 			}
 

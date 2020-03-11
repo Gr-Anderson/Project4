@@ -11,6 +11,18 @@ N | Elapsed Time (total) | Memory Usage (Megabytes)
 500 | .3274s | 21.982
 1000 | 1.3088s | 87.928
 
+##### How did you represent the map as a graph?
+
+##### Explain which graph representation you used and how you determined the relationship between vertices include the edges and their weights.
+
+##### What is complexity of your implementation of Dijkstra's Algorithm?
+
+##### Explain this by describing which data structures you used and how you used them to implement path finding.
+
+##### How well does your implementation scale?
+
+##### Explain what effect did N (ie. the size of the map) have on the performance of your dijkstras path finding component in terms of execution time and memory usage?
+
 This project implements a [Dijkstra's Algorithm] to perform rudimentary path
 finding on a 2D tile-based map.
 

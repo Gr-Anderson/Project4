@@ -1,6 +1,9 @@
 Project 04: Path Finding
 ========================
 
+Grant Anderson
+Logan Tillman
+
 N | Elapsed Time (total) | Memory Usage (Megabytes)
 --- | :---: | :---:
 10 | .0042s | 0.01 

@@ -1,6 +1,8 @@
 Project 04: Path Finding
 ========================
 
+Group Members:
+
 Grant Anderson
 
 Logan Tillman

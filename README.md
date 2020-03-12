@@ -13,7 +13,7 @@ N | Elapsed Time (total) | Memory Usage (Megabytes)
 
 ##### How did you represent the map as a graph?
 
-By making each element of the map a node, and connecting each Node to their adjacent Nodes we made a grapj
+By making each element of the map a node, and connecting each Node to their adjacent Nodes we made a graph
 
 ##### Explain which graph representation you used and how you determined the relationship between vertices include the edges and their weights.
 
